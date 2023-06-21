@@ -1,10 +1,10 @@
 from exif import Image
 import sys
 
-img_path = sys.argv[1]
-
 def convert(deg, min, sec, ref):
     return (float(deg) + float(min) / 60 + float(sec) / (60 * 60)) * (-1 if ref in ['W', 'S'] else 1)
+
+img_path = sys.argv[1]
 
 with open(img_path, 'rb') as src:
     img = Image(src)

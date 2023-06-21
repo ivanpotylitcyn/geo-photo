@@ -7,7 +7,7 @@ import os
 
 catalog_path = sys.argv[1]
 raw_path = os.path.join(catalog_path, "RAW")
-days = os.listdir(raw_path)[1:]
+days = os.listdir(raw_path)
 
 print("\nCatalog path: ", catalog_path)
 print("RAW path: ", raw_path)
@@ -32,7 +32,7 @@ os.mkdir(pro_path)
 # Delete backups
 
 bkp_folder = 'lrcat_backup'
-if bkp_folder in os.listdir(catalog_path)[1:]:
+if bkp_folder in os.listdir(catalog_path):
     print("Delete backups from", bkp_folder)
     shutil.rmtree(os.path.join(catalog_path, bkp_folder))
 else:
@@ -42,6 +42,10 @@ else:
 # Move sources
 
 for day in days:
+    if day == ".DS_Store":
+        print("Skip", day)
+        continue
+
     print("\nWorking with", day)
 
     day_path = os.path.join(raw_path, day)
@@ -63,7 +67,7 @@ for day in days:
 
 # Move catalog to a pro folder
 
-files = os.listdir(catalog_path)[1:]
+files = os.listdir(catalog_path)
 
 for file in files:
     if file.endswith(".lrcat"):
@@ -76,7 +80,7 @@ for file in files:
 
 # Delete RAW folder
 
-print("\nDelete RAW folder from ", raw_path)
-shutil.rmtree(raw_path)
+# print("\nDelete RAW folder from ", raw_path)
+# shutil.rmtree(raw_path)
 
 print("\nRefoldering of the", catalog_path, "done.")
