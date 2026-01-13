@@ -33,3 +33,6 @@ print(geoLat, geoLon)
 print(img.datetime_original.replace(':', '-', 2))
 print()
 print(link)
+print()
+for item in img.list_all():
+    print(item)
