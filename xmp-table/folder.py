@@ -92,7 +92,7 @@ def longitude_to_tex(lon_str):
     # print(f"Долгота: {lon_str} -> {lon_text}")
     return lon_text
 
-def write_messages(folder_path, full_data):
+def write_tg_messages(folder_path, full_data):
     full_data.sort(key=lambda x: x['identifier'])
 
     with open(os.path.join(folder_path, 'tg_messages.txt'), 'w', encoding='utf-8') as file:
@@ -107,9 +107,47 @@ def write_messages(folder_path, full_data):
 
             file.write(f"{row['description']}\n\n")
             file.write(f"{row['title']}\n\n")
+            file.write(f"{lat} {lon}\n\n")
+            file.write(f"https://yandex.ru/maps/?pt={lon_f},{lat_f}&z=18&l=map\n\n")
+            file.write(f"{date} {time}\n\n")
+            file.write("#календарь2026@potylitcyn\n")
+            file.write("Заказать в ВК или купить с Авито Доставкой\n\n")
+            file.write("https://vk.com/market/product/kalendar-2026-169046593-13305201\n\n")
+            file.write("https://www.avito.ru/dolgoprudnyy/knigi_i_zhurnaly/kalendar_nastennyy_2026_7900365172\n\n")
+            file.write(f"---------\n\n")
+
+
+# Обложка
+
+# Команда мечты на пляже Анс-Патат
+
+# 4°20'16.8"S 55°50'3.5"E
+# 2025-11-06 15:54:51
+
+# #календарь2026@potylitcyn
+# Заказать в ВК или купить с Авито Доставкой
+
+
+def write_vk_messages(folder_path, full_data):
+    full_data.sort(key=lambda x: x['identifier'])
+
+    with open(os.path.join(folder_path, 'vk_messages.txt'), 'w', encoding='utf-8') as file:
+        for row in full_data:
+            lat = latitude_to_text(row['Latitude'])
+            lon = longitude_to_tex(row['Longitude'])
+            date, time = row['DateTimeOriginal'].split(' ')
+            date = date.replace(':', '-')
+            time = time.split('.')[0]
+            lat_f = latitude_to_float(row['Latitude'])
+            lon_f = longitude_to_float(row['Longitude'])
+
+            file.write(f"{row['description']}\n\n")
+            file.write(f"{row['title']}\n\n")
             file.write(f"{lat} {lon}\n")
             file.write(f"{date} {time}\n\n")
-            file.write(f"https://yandex.ru/maps/?pt={lon_f},{lat_f}&z=18&l=map\n\n")
+            file.write("#календарь2026@potylitcynblog\n")
+            file.write("Заказать в ВК или купить с Авито Доставкой\n")
+            file.write("https://www.avito.ru/dolgoprudnyy/knigi_i_zhurnaly/kalendar_nastennyy_2026_7900365172\n\n")
             file.write(f"---------\n\n")
 
 def write_coordinates(folder_path, full_data):
@@ -143,5 +181,6 @@ if __name__ == "__main__":
     data = read_folder_xmp(args.folder)
     write_data_to_csv(args.folder, data)
     write_ym_csv(args.folder, data)
-    write_messages(args.folder, data)
     write_coordinates(args.folder, data)
+    write_tg_messages(args.folder, data)
+    write_vk_messages(args.folder, data)
